@@ -10,8 +10,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
-    idle: dbConfig.pool.idle
-  }
+    idle: dbConfig.pool.idle,
+  },
 });
 
 const db = {};
@@ -22,11 +22,7 @@ db.sequelize = sequelize;
 db.voitures = require("./voiture.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
 
-
-db.voitures.hasMany(db.comments,{as: "comments"});
-db.comments.belongsTo(db.voitures, {foreignKey: "voitureId",
-  as: "voiture",});
-
-
+db.voitures.hasMany(db.comments, { as: "comments" });
+db.comments.belongsTo(db.voitures, { foreignKey: "voitureId", as: "voiture" });
 
 module.exports = db;
