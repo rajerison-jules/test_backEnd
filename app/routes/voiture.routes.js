@@ -1,9 +1,17 @@
+const { authJwt } = require("../middleware");
+const voitures = require("../controllers/voiture.controller.js");
 module.exports = (app) => {
-  const voitures = require("../controllers/voiture.controller.js");
-  const comments = require("../controllers/comment.controller.js");
+  app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  }); 
+
 
   var router = require("express").Router();
-
+  var routerpubl = require("express").Router();
   // Create a new Tutorial
 
   router.post("/", voitures.create);
@@ -29,5 +37,11 @@ module.exports = (app) => {
   // Delete all voitures
   router.delete("/", voitures.deleteAll);
 
-  app.use("/api/voitures", router);
+  //voitures for public
+  routerpubl.get("/", voitures.findAllPubl)
+
+
+  app.use("/api/voitures",[authJwt.verifyToken], router);
+  app.use("/api/voitPubl",routerpubl);
+
 };

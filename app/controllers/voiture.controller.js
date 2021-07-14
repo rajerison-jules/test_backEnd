@@ -79,12 +79,21 @@ exports.findOneComs = (req, res) => {
 
 // Retrieve all Voitures from the database.
 exports.findAll = (req, res) => {
-  const mark = req.query.mark;
-  var condition = mark ? { mark: { [Op.like]: `%${mark}%` } } : null;
-
   Voiture.findAll({
     include: ["comments"],
   })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving car.",
+      });
+    });
+};
+
+exports.findAllPubl = (req, res) => {
+  Voiture.findAll()
     .then((data) => {
       res.send(data);
     })

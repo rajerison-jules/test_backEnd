@@ -21,8 +21,24 @@ db.sequelize = sequelize;
 
 db.voitures = require("./voiture.model.js")(sequelize, Sequelize);
 db.comments = require("./comment.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.role = require("./role.model.js")(sequelize, Sequelize);
 
 db.voitures.hasMany(db.comments, { as: "comments" });
 db.comments.belongsTo(db.voitures, { foreignKey: "voitureId", as: "voiture" });
+db.user.hasMany(db.comments,{as:"comments"});
+db.comments.belongsTo(db.user,{otherKey:"userId", as:"user"})
 
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
+
+db.ROLES = ["user", "admin", "moderator"];
 module.exports = db;
