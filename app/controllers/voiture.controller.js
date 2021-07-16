@@ -27,7 +27,8 @@ exports.create = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Voiture.",
+          err.message ||
+          "Une erreur s'est produite lors de la création de la voiture.",
       });
     });
 };
