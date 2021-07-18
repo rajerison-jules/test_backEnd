@@ -1,7 +1,7 @@
 # Pour tester
-cette API est faite avec Node v14.16.1
-pour le lancer vous devez installer Mysql
-# cree une utilisateur 
+cette API est faite avec Node v14.16.1  avec le SGBDDR Mysql
+pour le lancer vous devez installer Node et puis Mysql
+# cree une utilisateur root  
 ```bash
 mysql -u root -p
 ```
