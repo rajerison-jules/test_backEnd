@@ -34,7 +34,7 @@ module.exports = (app) => {
 
   // Delete all voitures
   router.delete("/", voitures.deleteAll);
-
+  router.get("/user/:id", voitures.findUser);
   //voitures for public
   routerpubl.get("/", voitures.findAllPubl);
   routerpubl.post("/", voitures.create);

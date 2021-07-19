@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     value: {
       type: DataTypes.TEXT,
     },
-    voitureId: {
-      type: DataTypes.INTEGER,
+    IdetityUser: {
+      type: DataTypes.JSON,
     },
   });
 

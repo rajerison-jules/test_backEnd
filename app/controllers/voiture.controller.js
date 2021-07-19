@@ -1,6 +1,7 @@
 const db = require("../models");
 const Voiture = db.voitures;
 const Comment = db.comments;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Voiture
@@ -33,14 +34,34 @@ exports.create = (req, res) => {
     });
 };
 
+exports.findUser = (req, res) => {
+  const id = req.params.id;
+
+  User.findByPk(id)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving car with id=" + id,
+      });
+    });
+};
+
 exports.createComs = (req, res) => {
   const comment = {
     name: req.body.name,
     value: req.body.value,
     voitureId: req.body.voitureId,
+    userId: req.body.userId,
   };
 
-  Comment.create(comment)
+  Comment.create(comment, {
+    include: {
+      model: User,
+      as: "user",
+    },
+  })
     .then((data) => {
       res.send(data);
     })
@@ -53,7 +74,9 @@ exports.createComs = (req, res) => {
 };
 
 exports.findAllComs = (req, res) => {
-  Comment.findAll()
+  Comment.findAll({
+    include: ["user"],
+  })
     .then((data) => {
       res.send(data);
     })
